@@ -45,13 +45,15 @@ on:
 jobs:
   Preflight:
     runs-on: ubuntu-latest
+    container: ghcr.io/inti-cmnb/kicad7_auto_full:dev
+
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
 
       # Run KiBot with the preflight script
-      - uses: INTI-CMNB/KiBot@v2_k7
+      - uses: INTI-CMNB/KiBot@v2_dk7
         with:
           config: .kibot/preflight.kibot.yaml
           schema: ${{ vars.PROJECT_BASE_NAME }}.kicad_sch

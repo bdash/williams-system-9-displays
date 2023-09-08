@@ -41,6 +41,7 @@ on:
 jobs:
   FabricationAndDocumentation:
     runs-on: ubuntu-latest
+    container: ghcr.io/inti-cmnb/kicad7_auto_full:dev
 
     env:
       # Set this to your local timezone. See https://www.wikiwand.com/en/List_of_tz_database_time_zones for valid strings.
@@ -75,6 +76,14 @@ jobs:
         run: echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
         if: startsWith(github.ref, 'refs/tags/') == false
 
+      # Enable caching of 3D models
+      - name: Cache 3D models data
+        id: models-cache
+        uses: set-soft/cache@main
+        with:
+          path: ~/cache_3d
+          key: cache_3d
+
       # Actually run KiBot to generate all the files. The KiBot script used is
       # in the .kibot/release.kibot.yaml folder.
       - name: Generate documentation and fabrication files
@@ -84,6 +93,7 @@ jobs:
           dir: ${{ env.OutputFolder }}
           schema: ${{ vars.PROJECT_BASE_NAME }}.kicad_sch
           board: ${{ vars.PROJECT_BASE_NAME }}.kicad_pcb
+          cache3D: YES
 
       # Install the zip command line tool to package up the output
       - name: Install zip

@@ -90,28 +90,46 @@ outputs:
       show_components: none
       dpi: 1200
 
-  - name: pcb_top_components
-    comment: "Renders - top (components)"
-    type: pcbdraw
-    dir: "Renders"
-    options:
-      output: "%f-components-%i.%x"
-      format: png
-      show_components: all
-      dpi: 1200
-
-  - name: pcb_bot_components
-    comment: "Renders - bottom (components)"
-    type: pcbdraw
-    dir: "Renders"
-    options:
-      output: "%f-components-%i.%x"
-      format: png
-      bottom: True
-      show_components: all
-      dpi: 1200
-
-  - name: 3D render
-    comment: "Renders - 3D (STEP)"
-    type: step
-    dir: "Renders"
+  # # TODO(markrowe): Disabled as it is unbearably slow
+  # - name: pcb_3drender
+  #   comment: "Renders - 3D"
+  #   type: render_3d
+  #   dir: "Renders"
+  #   options:
+  #     ray_tracing: True
+  #     auto_crop: True
+  #     zoom: 2
+  #     move_y: -2
+  #     width: 2048
+  #     height: 2048
+  #     transparent_background: True
+  #     wait_render: 60
+  #
+  # TOOD(markrowe): KiBot says most components have no footprint and so they're not rendered.
+  # - name: pcb_top_components
+  #   comment: "Renders - top (components)"
+  #   type: pcbdraw
+  #   dir: "Renders"
+  #   options:
+  #     output: "%f-components-%i.%x"
+  #     format: png
+  #     show_components: all
+  #     dpi: 1200
+  #
+  # - name: pcb_bot_components
+  #   comment: "Renders - bottom (components)"
+  #   type: pcbdraw
+  #   dir: "Renders"
+  #   options:
+  #     output: "%f-components-%i.%x"
+  #     format: png
+  #     bottom: True
+  #     show_components: all
+  #     dpi: 1200
+  #
+  # TODO(markrowe): Disabled as this succeeds, but KiBot thinks something has failed
+  # and leaves cruft all up in the output directory
+  # - name: 3D render
+  #   comment: "Renders - 3D (STEP)"
+  #   type: step
+  #   dir: "Renders"
