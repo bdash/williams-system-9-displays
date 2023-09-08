@@ -36,7 +36,8 @@ outputs:
     dir: "PDFs"
     options:
       force_edge_cuts: true
-      scaling: 0
+      # TODO: scaling: 0 should enable auto-scaling, but currently throws a divide by zero exception
+      scaling: 2
       dpi: 600
       plot_sheet_reference: false
       pages:
