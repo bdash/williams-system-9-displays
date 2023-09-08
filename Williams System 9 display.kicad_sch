@@ -1229,7 +1229,7 @@
         )
       )
     )
-    (symbol "PCM_Capacitor_US_AKL:C_0805" (pin_numbers hide) (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
+    (symbol "Capacitor_US_AKL:C_0805" (pin_numbers hide) (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
       (property "Reference" "C" (at 0.635 2.54 0)
         (effects (font (size 1.27 1.27)) (justify left))
       )
@@ -1280,7 +1280,7 @@
         )
       )
     )
-    (symbol "PCM_Resistor_US_AKL:R_0805" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+    (symbol "Resistor_US_AKL:R_0805" (pin_numbers hide) (pin_names (offset 0)) (in_bom yes) (on_board yes)
       (property "Reference" "R" (at 2.54 1.27 0)
         (effects (font (size 1.27 1.27)) (justify left))
       )
@@ -3169,7 +3169,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 256.54 127 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 256.54 127 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4a60b7d9-cf4f-4e03-8fad-364c501f9f5a)
     (property "Reference" "C108" (at 260.35 125.73 0)
@@ -3195,7 +3195,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Resistor_US_AKL:R_0805") (at 255.27 90.17 0) (unit 1)
+  (symbol (lib_id "Resistor_US_AKL:R_0805") (at 255.27 90.17 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4bac618a-4ade-4a1e-a537-b4f3c4d8988d)
     (property "Reference" "R102" (at 256.54 88.9 0)
@@ -3221,7 +3221,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 203.2 133.35 0) (mirror y) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 203.2 133.35 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 51fbf905-6aad-4f76-a4ed-b1c5dbdbed62)
     (property "Reference" "C107" (at 199.39 132.08 0)
@@ -3559,7 +3559,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Resistor_US_AKL:R_0805") (at 257.81 64.77 90) (unit 1)
+  (symbol (lib_id "Resistor_US_AKL:R_0805") (at 257.81 64.77 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6cfa991d-8de0-47b9-9d44-82e0e5e45896)
     (property "Reference" "R105" (at 257.81 59.69 90)
@@ -3615,7 +3615,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 127 30.48 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 127 30.48 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 73b841ab-a2ab-4164-b785-74022664d9e0)
     (property "Reference" "C102" (at 129.54 29.21 0)
@@ -3773,7 +3773,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Resistor_US_AKL:R_0805") (at 257.81 73.66 90) (unit 1)
+  (symbol (lib_id "Resistor_US_AKL:R_0805") (at 257.81 73.66 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 945facc2-fc75-48b3-8d46-70ac58fa334b)
     (property "Reference" "R104" (at 257.81 68.58 90)
@@ -3799,7 +3799,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 66.04 82.55 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 66.04 82.55 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9a2dafcd-e944-4df5-a90b-2796780dc247)
     (property "Reference" "C103" (at 68.58 81.28 0)
@@ -3894,7 +3894,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 66.04 27.94 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 66.04 27.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a77449ab-7961-403d-b2a8-7fd47dc12fe5)
     (property "Reference" "C101" (at 68.58 26.67 0)
@@ -3920,7 +3920,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 81.28 154.94 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 81.28 154.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a84cac5a-a4e1-4521-9412-631aaf9b2b1b)
     (property "Reference" "C106" (at 85.09 153.67 0)
@@ -4049,7 +4049,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 115.57 121.92 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 115.57 121.92 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid baa038fb-6437-4094-acfd-c9ec2410afd6)
     (property "Reference" "C104" (at 118.11 120.65 0)
@@ -4447,7 +4447,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Resistor_US_AKL:R_0805") (at 257.81 78.74 90) (unit 1)
+  (symbol (lib_id "Resistor_US_AKL:R_0805") (at 257.81 78.74 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid eba833ab-5646-42c0-a61b-4436de1a6ac2)
     (property "Reference" "R103" (at 257.81 81.28 90)
@@ -4499,7 +4499,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Resistor_US_AKL:R_0805") (at 264.16 93.98 0) (unit 1)
+  (symbol (lib_id "Resistor_US_AKL:R_0805") (at 264.16 93.98 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f09350f7-8d1d-4919-bca4-6072af783756)
     (property "Reference" "R101" (at 265.43 92.71 0)
@@ -4594,7 +4594,7 @@
     )
   )
 
-  (symbol (lib_id "PCM_Capacitor_US_AKL:C_0805") (at 154.94 153.67 0) (unit 1)
+  (symbol (lib_id "Capacitor_US_AKL:C_0805") (at 154.94 153.67 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid ff586050-962a-4816-b0ec-8607c018d650)
     (property "Reference" "C105" (at 158.75 152.4 0)
