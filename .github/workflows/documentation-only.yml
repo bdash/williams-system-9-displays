@@ -48,6 +48,7 @@ jobs:
       OutputFolder: "KiBotOutput"
 
     runs-on: ubuntu-latest
+    container: ghcr.io/inti-cmnb/kicad7_auto_full:dev
 
     # These are all the steps that generate the files.
     steps:
