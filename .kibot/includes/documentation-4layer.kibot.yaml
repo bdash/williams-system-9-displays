@@ -90,29 +90,28 @@ outputs:
       show_components: none
       dpi: 1200
 
-  # TOOD(markrowe): KiBot says most components have no footprint and so they're not rendered.
-  # - name: pcb_top_components
-  #   comment: "Renders - top (components)"
-  #   type: pcbdraw
-  #   dir: "Renders"
-  #   options:
-  #     output: "%f-components-%i.%x"
-  #     format: png
-  #     show_components: all
-  #     dpi: 1200
+  - name: pcb_top_components
+    comment: "Renders - top (components)"
+    type: pcbdraw
+    dir: "Renders"
+    options:
+      output: "%f-components-%i.%x"
+      format: png
+      show_components: all
+      dpi: 1200
 
-  # - name: pcb_bot_components
-  #   comment: "Renders - bottom (components)"
-  #   type: pcbdraw
-  #   dir: "Renders"
-  #   options:
-  #     output: "%f-components-%i.%x"
-  #     format: png
-  #     bottom: True
-  #     show_components: all
-  #     dpi: 1200
+  - name: pcb_bot_components
+    comment: "Renders - bottom (components)"
+    type: pcbdraw
+    dir: "Renders"
+    options:
+      output: "%f-components-%i.%x"
+      format: png
+      bottom: True
+      show_components: all
+      dpi: 1200
 
-  # - name: 3D render
-  #   comment: "Renders - 3D (STEP)"
-  #   type: step
-  #   dir: "Renders"
+  - name: 3D render
+    comment: "Renders - 3D (STEP)"
+    type: step
+    dir: "Renders"
