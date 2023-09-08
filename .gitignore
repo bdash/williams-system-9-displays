@@ -1,0 +1,13 @@
+*-backups/
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.kicad_pro-bak
+*.xml
+fp-info-cache
+
+production/
+
+# KiBot files
+*-drc.txt
+*-erc.txt
+**/KiBotOutput

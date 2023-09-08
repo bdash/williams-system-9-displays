@@ -1,0 +1,117 @@
+# MIT License
+
+# Copyright (c) 2021 Neil Enns
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# This KiBot script generates common documentation files for a two layer board design,
+# including PDF schematics, PDF front and back board images, an interactive HTML BOM,
+# JPEG renders of the PCB, and a STEP 3D model. Note that the STEP 3D model generation
+# will throw a ton of warnings and errors but does actually work.
+outputs:
+  - name: "print_sch"
+    comment: "PDF - print schematic"
+    type: pdf_sch_print
+    dir: "PDFs"
+
+  - name: print_pdf
+    comment: "PDFs of the PCB"
+    type: pcb_print
+    dir: "PDFs"
+    options:
+      force_edge_cuts: true
+      scaling: 0
+      dpi: 600
+      plot_sheet_reference: false
+      pages:
+        - layers: [ F.Cu, F.SilkS, Dwgs.User ]
+          sheet: 'Top layer'
+        - layers: [ B.Cu, B.SilkS, Dwgs.User ]
+          sheet: 'Bottom layer'
+        - layers: [ F.Paste, F.Adhes, Dwgs.User, F.Fab ]
+          sheet: 'Fabrication layers'
+
+  - name: pcb-layers-pngs
+    comment: "PNGs of the PCB"
+    type: pcb_print
+    dir: "PNGs"
+    extends: print_pdf
+    options:
+      format: PNG
+      png_width: 0
+
+  - name: "interactive_bom"
+    comment: "Interactive Bill of Materials"
+    type: ibom
+    dir: "BOM"
+    options:
+      blacklist: "DNF*"
+      show_fields: Value,Footprint,MPN
+      group_fields: MPN
+      extra_data_file: "%F.xml"
+      include_nets: true
+
+  - name: pcb_top_no_components
+    comment: "Renders - top (no components)"
+    type: pcbdraw
+    dir: "Renders"
+    options:
+      output: "%f-no-components-%i.%x"
+      format: png
+      show_components: none
+      dpi: 1200
+
+  - name: pcb_bot_no_components
+    comment: "Renders - bottom (no components)"
+    type: pcbdraw
+    dir: "Renders"
+    options:
+      output: "%f-no-components-%i.%x"
+      format: png
+      bottom: True
+      mirror: True
+      show_components: none
+      dpi: 1200
+
+  # TOOD(markrowe): KiBot says most components have no footprint and so they're not rendered.
+  # - name: pcb_top_components
+  #   comment: "Renders - top (components)"
+  #   type: pcbdraw
+  #   dir: "Renders"
+  #   options:
+  #     output: "%f-components-%i.%x"
+  #     format: png
+  #     show_components: all
+  #     dpi: 1200
+
+  # - name: pcb_bot_components
+  #   comment: "Renders - bottom (components)"
+  #   type: pcbdraw
+  #   dir: "Renders"
+  #   options:
+  #     output: "%f-components-%i.%x"
+  #     format: png
+  #     bottom: True
+  #     show_components: all
+  #     dpi: 1200
+ 
+  # - name: 3D render
+  #   comment: "Renders - 3D (STEP)"
+  #   type: step
+  #   dir: "Renders"

@@ -1,0 +1,61 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "KiBot - Generate release",
+      "type": "shell",
+      "command": "kibot",
+      "args": [
+        "--verbose",
+        "-c",
+        ".kibot/release.kibot.yaml",
+        "-b",
+        "${workspaceFolderBasename}.kicad_pcb",
+        "--out-dir",
+        "KiBotOutput"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "KiBot - Documentation only",
+      "type": "shell",
+      "command": "kibot",
+      "args": [
+        "--verbose",
+        "-c",
+        ".kibot/documentation-only.kibot.yaml",
+        "-b",
+        "${workspaceFolderBasename}.kicad_pcb",
+        "--out-dir",
+        "KiBotOutput"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "KiBot - Preflight",
+      "type": "shell",
+      "command": "kibot",
+      "args": [
+        "--verbose",
+        "-c",
+        ".kibot/preflight.kibot.yaml",
+        "-b",
+        "${workspaceFolderBasename}.kicad_pcb",
+        "--out-dir",
+        "KiBotOutput"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

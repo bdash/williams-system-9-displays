@@ -1,0 +1,9 @@
+preflight:
+  set_text_variables:
+    - variable: "VERSION"
+      command: echo $version
+    - variable: "DATE"
+      command: git log -1 --format='%as' -- "$KIBOT_PCB_NAME"
+
+global:
+  drc_exclusions_workaround: true
