@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Display_Character_bdash")(type "KiCad")(uri "${KIPRJMOD}/Components/Footprints/Display_Character_bdash.pretty")(options "")(descr ""))
+  (lib (name "MCU_RaspberryPi_and_Boards_bdash")(type "KiCad")(uri "${KIPRJMOD}/Components/Footprints/MCU_RaspberryPi_and_Boards_bdash.pretty")(options "")(descr ""))
+)
