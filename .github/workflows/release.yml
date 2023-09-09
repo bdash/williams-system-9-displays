@@ -41,7 +41,7 @@ on:
 jobs:
   FabricationAndDocumentation:
     runs-on: ubuntu-latest
-    container: ghcr.io/inti-cmnb/kicad7_auto_full:dev
+    # container: ghcr.io/inti-cmnb/kicad7_auto_full:dev
 
     env:
       # Set this to your local timezone. See https://www.wikiwand.com/en/List_of_tz_database_time_zones for valid strings.
