@@ -121,7 +121,7 @@ jobs:
             ${{ env.OutputFolder }}/PDFs/${{ vars.PROJECT_BASE_NAME }}-schematic.pdf
             ${{ env.OutputFolder }}/Renders/${{ vars.PROJECT_BASE_NAME }}-no-components-top.png
             ${{ env.OutputFolder }}/Renders/${{ vars.PROJECT_BASE_NAME }}-no-components-bottom.png
-            ${{ env.OutputFolder }}/OSHPark/${{ vars.PROJECT_BASE_NAME }}-OSHPark.zip
+            ${{ env.OutputFolder }}/JLCPCB/${{ vars.PROJECT_BASE_NAME }}-JLCPCB.zip
             ${{ vars.PROJECT_BASE_NAME }}-Documentation.zip
 
       # Archive all the artifacts from output and attach to the action's results.
