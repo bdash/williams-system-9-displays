@@ -101,18 +101,18 @@ static void lcd_write_packet(const struct pio_spi_inst* lcd_spi, ReadWrite read_
     gpio_put(lcd_spi->cs_pin, 0);
     gpio_put(LED_PIN, 1);
 
-    const uint8_t header = lcd_packet_header(read_write, register_select);
-    pio_spi_write8_blocking(lcd_spi, &header, sizeof(header));
+    std::array<uint8_t, 256> packet;
+    assert(1 + body.size() * 2 <= 256);
+
+    size_t size = 0;
+    packet[size++] = lcd_packet_header(read_write, register_select);
 
     for (auto byte : body) {
-        uint8_t packet[] = {
-            static_cast<uint8_t>(byte & 0x0f),
-            static_cast<uint8_t>((byte & 0xf0) >> 4),
-         };
-
-        pio_spi_write8_blocking(lcd_spi, packet, sizeof(packet));
+        packet[size++] = static_cast<uint8_t>(byte & 0x0f);
+        packet[size++] = static_cast<uint8_t>((byte & 0xf0) >> 4);
     }
 
+    pio_spi_write8_blocking(lcd_spi, packet.data(), size);
     pio_spi_wait_til_idle(lcd_spi);
     
     gpio_put(lcd_spi->cs_pin, 1);
