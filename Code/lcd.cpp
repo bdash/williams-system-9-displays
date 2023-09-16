@@ -1,5 +1,6 @@
 #include "lcd.h"
 
+#include <cassert>
 #include "hardware/gpio.h"
 
 #include "pio_spi.h"
@@ -238,7 +239,16 @@ static void lcd_write_packet(const struct pio_spi_inst *lcd_spi,
   gpio_put(PICO_DEFAULT_LED_PIN, 0);
 }
 
-void lcd_init(const struct pio_spi_inst *lcd_spi) {
+LCD_DOGS164::LCD_DOGS164(PIO pio, uint sm, float clock_divisor, Pins pins) : pio_spi_{pio, sm} {
+  uint offset = pio_add_program(pio0, &spi_program);
+
+  pio_spi_cs_init(pio, sm, offset, 8 /* bits per SPI frame*/, clock_divisor,
+                  pins.CS, pins.SCLK, pins.MOSI, pins.MISO);
+
+  init();
+}
+
+void LCD_DOGS164::init() {
   const uint8_t LCD_INITIALIZATION[] = {
       lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DataBlink::Off, Reverse::Off),
       lcd_extended_function_set(FontWidth::FiveDot, BlackWhiteInversion::Off, FourLineMode::On),
@@ -254,27 +264,25 @@ void lcd_init(const struct pio_spi_inst *lcd_spi) {
       lcd_clear_display(),
   };
 
-  lcd_write_packet(lcd_spi, ReadWrite::Write, RegisterSelect::Instruction, std::span(LCD_INITIALIZATION));
+  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction, std::span(LCD_INITIALIZATION));
 }
 
-void lcd_display(const struct pio_spi_inst *lcd_spi,
-                        std::span<const uint8_t> data) {
+void LCD_DOGS164::display(std::span<const uint8_t> data) {
   const uint8_t packet[] = {
       0x84, // Set RAM address to 4 since we're in bottom view and the first 4
             // bytes are off-screen.
   };
-  lcd_write_packet(lcd_spi, ReadWrite::Write, RegisterSelect::Instruction,
+  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
                    packet);
-  lcd_write_packet(lcd_spi, ReadWrite::Write, RegisterSelect::Data, data);
+  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
 }
 
-void lcd_set(const struct pio_spi_inst *lcd_spi, uint8_t offset,
-                    std::span<const uint8_t> data) {
+void LCD_DOGS164::display_at(uint8_t offset, std::span<const uint8_t> data) {
   assert(offset <= 0x73);
   const uint8_t packet[] = {
       static_cast<uint8_t>(0x84 + offset),
   };
-  lcd_write_packet(lcd_spi, ReadWrite::Write, RegisterSelect::Instruction,
+  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
                    packet);
-  lcd_write_packet(lcd_spi, ReadWrite::Write, RegisterSelect::Data, data);
+  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
 }

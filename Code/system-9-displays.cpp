@@ -31,30 +31,20 @@ int main() {
   sleep_ms(1);
   gpio_put(LCD_RESET_PIN, 1);
 
-  struct pio_spi_inst lcd_spi = {
-      .pio = pio0,
-      .sm = 0,
-      .cs_pin = LCD_CS_PIN,
-  };
-
-  uint prog_offset = pio_add_program(pio0, &spi_program);
   // This is too fast on the breadboard:
-  // float clkdiv = 31.25f;  // 1 MHz @ 125 clk_sys
-  float clkdiv = 125.f;
+  // float clock_divisor = 31.25f;  // 1 MHz @ 125 clk_sys
+  float clock_divisor = 125.f;
 
-  pio_spi_cs_init(lcd_spi.pio, lcd_spi.sm, prog_offset,
-                  8 /* bits per SPI frame*/, clkdiv, LCD_CS_PIN, LCD_SCLK_PIN,
-                  LCD_MOSI_PIN, LCD_MISO_PIN);
+  LCD_DOGS164 lcd(pio0, 0, clock_divisor, {.CS = LCD_CS_PIN, .SCLK = LCD_SCLK_PIN, .MOSI = LCD_MOSI_PIN, .MISO = LCD_MISO_PIN });
 
-  lcd_init(&lcd_spi);
   uint8_t message[] = "0123456789012345XXXX0123456789012345XXXX0123456789012345"
                       "XXXX0123456789012345";
-  lcd_display(&lcd_spi, std::span(message, sizeof(message) - 1));
+  lcd.display(std::span(message, sizeof(message) - 1));
 
   while (true) {
     sleep_ms(500);
     message[1]++;
-    lcd_set(&lcd_spi, 1, std::span(&message[1], 1));
+    lcd.display_at(1, std::span(&message[1], 1));
   }
 
   return 0;
