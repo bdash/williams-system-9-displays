@@ -21,7 +21,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(system-9-displays system-9-displays.cpp pio_spi.c pio_spi.h )
+add_executable(system-9-displays system-9-displays.cpp lcd.h lcd.cpp pio_spi.c pio_spi.h)
 
 pico_set_program_name(system-9-displays "system-9-displays")
 pico_set_program_version(system-9-displays "0.1")
