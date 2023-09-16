@@ -98,7 +98,6 @@ inline constexpr uint8_t lcd_entry_mode_set(CommonDataShiftDirection common_data
 
 
 static void lcd_write_packet(const struct pio_spi_inst* lcd_spi, ReadWrite read_write, RegisterSelect register_select, std::span<const uint8_t> body) {
-    gpio_put(lcd_spi->cs_pin, 0);
     gpio_put(LED_PIN, 1);
 
     std::array<uint8_t, 256> packet;
@@ -115,7 +114,6 @@ static void lcd_write_packet(const struct pio_spi_inst* lcd_spi, ReadWrite read_
     pio_spi_write8_blocking(lcd_spi, packet.data(), size);
     pio_spi_wait_til_idle(lcd_spi);
     
-    gpio_put(lcd_spi->cs_pin, 1);
     gpio_put(LED_PIN, 0);
 }
 
@@ -167,10 +165,6 @@ int main()
     gpio_put(LCD_RESET_PIN, 1);
     gpio_set_dir(LCD_RESET_PIN, GPIO_OUT);
 
-    gpio_init(LCD_CS_PIN);
-    gpio_put(LCD_CS_PIN, 1);
-    gpio_set_dir(LCD_CS_PIN, GPIO_OUT);
-
     // Low pulse > 0.2ms to trigger reset of LCD.
     gpio_put(LCD_RESET_PIN, 0);
     sleep_ms(1);
@@ -187,7 +181,7 @@ int main()
     // float clkdiv = 31.25f;  // 1 MHz @ 125 clk_sys
     float clkdiv = 125.f;
 
-    pio_spi_cs_init(lcd_spi.pio, lcd_spi.sm, prog_offset, 8 /* bits per SPI frame*/, clkdiv, LCD_SCLK_PIN, LCD_MOSI_PIN, LCD_MISO_PIN);
+    pio_spi_cs_init(lcd_spi.pio, lcd_spi.sm, prog_offset, 8 /* bits per SPI frame*/, clkdiv, LCD_CS_PIN, LCD_SCLK_PIN, LCD_MOSI_PIN, LCD_MISO_PIN);
 
     lcd_init(&lcd_spi);
     uint8_t message[] = "0123456789012345XXXX0123456789012345XXXX0123456789012345XXXX0123456789012345";
