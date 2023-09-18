@@ -33,7 +33,8 @@ pico_generate_pio_header(system-9-displays ${CMAKE_CURRENT_LIST_DIR}/spi.pio)
 # Add the standard library to the build
 target_link_libraries(system-9-displays
         pico_stdlib
-        hardware_pio)
+        hardware_pio
+        pico_multicore)
 
 # Add the standard include files to the build
 target_include_directories(system-9-displays PRIVATE

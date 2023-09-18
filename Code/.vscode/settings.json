@@ -78,6 +78,11 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "sio.h": "c",
+        "pico.h": "c",
+        "types.h": "c",
+        "gpio.h": "c",
+        "dreq.h": "c"
     }
 }
