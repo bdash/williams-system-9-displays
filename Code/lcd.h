@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <span>
 
-#include "pio_spi.h"
+#include "hardware/pio.h"
 
 class LCD_DOGS164 {
 public:
@@ -18,9 +18,10 @@ public:
   void display_at(uint8_t offset, std::span<const uint8_t> data);
 
 private:
-  void init();
+  class Impl;
+  Impl& impl();
 
-  pio_spi_inst_t pio_spi_;
+  std::aligned_storage_t<sizeof(uint64_t)> impl_[4];
 };
 
 #endif // lcd_h__

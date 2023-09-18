@@ -239,50 +239,73 @@ static void lcd_write_packet(const struct pio_spi_inst *lcd_spi,
   gpio_put(PICO_DEFAULT_LED_PIN, 0);
 }
 
-LCD_DOGS164::LCD_DOGS164(PIO pio, uint sm, float clock_divisor, Pins pins) : pio_spi_{pio, sm} {
-  uint offset = pio_add_program(pio0, &spi_program);
+class LCD_DOGS164::Impl {
+public:
+  Impl(PIO pio, uint sm, float clock_divisor, Pins pins) : pio_spi_{pio, sm} {
+    uint offset = pio_add_program(pio0, &spi_program);
 
-  pio_spi_cs_init(pio, sm, offset, 8 /* bits per SPI frame*/, clock_divisor,
-                  pins.CS, pins.SCLK, pins.MOSI, pins.MISO);
+    pio_spi_cs_init(pio, sm, offset, 8 /* bits per SPI frame*/, clock_divisor,
+                    pins.CS, pins.SCLK, pins.MOSI, pins.MISO);
 
-  init();
-}
+    init();
+  }
 
-void LCD_DOGS164::init() {
-  const uint8_t LCD_INITIALIZATION[] = {
-      lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DataBlink::Off, Reverse::Off),
-      lcd_extended_function_set(FontWidth::FiveDot, BlackWhiteInversion::Off, FourLineMode::On),
-      lcd_entry_mode_set(CommonDataShiftDirection::Reverse, SegmentDataShiftDirection::Normal), // Bottom view
-      lcd_double_height_bias_dot_shift_set(DoubleHeightMode::BigSmallSmall, 1, false),
-      lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DoubleHeight::Off, SpecialRegisters::On),
-      lcd_divider_oscillator_set(1, 0b011),
-      lcd_follower_control(DividerCircuit::On, 0b100),
-      lcd_power_icon_contrast_set(IconDisplay::Off, PowerRegulator::On, 0),
-      lcd_contrast_set(0b1111),
-      lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DoubleHeight::Off, SpecialRegisters::Off),
-      lcd_display_on_off_control(DisplayState::On, CursorState::Off, CursorBlink::Off),
-      lcd_clear_display(),
-  };
+  void display(std::span<const uint8_t> data) {
+    const uint8_t packet[] = {
+        0x84, // Set RAM address to 4 since we're in bottom view and the first 4
+              // bytes are off-screen.
+    };
+    lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
+                     packet);
+    lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
+  }
 
-  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction, std::span(LCD_INITIALIZATION));
+  void display_at(uint8_t offset, std::span<const uint8_t> data) {
+    assert(offset <= 0x73);
+    const uint8_t packet[] = {
+        static_cast<uint8_t>(0x84 + offset),
+    };
+    lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
+                     packet);
+    lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
+  }
+
+private:
+  void init() {
+    const uint8_t LCD_INITIALIZATION[] = {
+        lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DataBlink::Off, Reverse::Off),
+        lcd_extended_function_set(FontWidth::FiveDot, BlackWhiteInversion::Off, FourLineMode::On),
+        lcd_entry_mode_set(CommonDataShiftDirection::Reverse, SegmentDataShiftDirection::Normal), // Bottom view
+        lcd_double_height_bias_dot_shift_set(DoubleHeightMode::BigSmallSmall, 1, false),
+        lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DoubleHeight::Off, SpecialRegisters::On),
+        lcd_divider_oscillator_set(1, 0b011),
+        lcd_follower_control(DividerCircuit::On, 0b100),
+        lcd_power_icon_contrast_set(IconDisplay::Off, PowerRegulator::On, 0),
+        lcd_contrast_set(0b1111),
+        lcd_function_set(DataLengthControl::EightBitBus, DisplayLineControl::TwoOrFourLine, DoubleHeight::Off, SpecialRegisters::Off),
+        lcd_display_on_off_control(DisplayState::On, CursorState::Off, CursorBlink::Off),
+        lcd_clear_display(),
+    };
+
+    lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction, std::span(LCD_INITIALIZATION));
+  }
+
+  pio_spi_inst_t pio_spi_;
+};
+
+LCD_DOGS164::LCD_DOGS164(PIO pio, uint sm, float clock_divisor, Pins pins) {
+  static_assert(sizeof(Impl) <= sizeof(impl_));
+  ::new(&impl_[0]) Impl(pio, sm, clock_divisor, std::move(pins));
 }
 
 void LCD_DOGS164::display(std::span<const uint8_t> data) {
-  const uint8_t packet[] = {
-      0x84, // Set RAM address to 4 since we're in bottom view and the first 4
-            // bytes are off-screen.
-  };
-  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
-                   packet);
-  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
+  impl().display(data);
 }
 
 void LCD_DOGS164::display_at(uint8_t offset, std::span<const uint8_t> data) {
-  assert(offset <= 0x73);
-  const uint8_t packet[] = {
-      static_cast<uint8_t>(0x84 + offset),
-  };
-  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Instruction,
-                   packet);
-  lcd_write_packet(&pio_spi_, ReadWrite::Write, RegisterSelect::Data, data);
+  impl().display_at(offset, data);
+}
+
+LCD_DOGS164::Impl& LCD_DOGS164::impl() {
+  return *reinterpret_cast<LCD_DOGS164::Impl*>(&impl_);
 }
